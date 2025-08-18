@@ -2,12 +2,12 @@ import "dotenv/config";
 
 export default {
   expo: {
-    name: "AiChef",
-    slug: "AiChef",
+    name: "ChefForge",
+    slug: "ChefForge",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
-    scheme: "aichef",
+    scheme: "chefforge",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     ios: {
