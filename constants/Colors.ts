@@ -6,4 +6,8 @@ export const Colors = {
   accent: "#fee440",
   brown: "#813405",
   deepskyblue: "#00bbf9",
+  opacWhite01: "rgba(255, 255, 255, 0.15)",
+  opacWhite03: "rgba(255, 255, 255, 0.3)",
+  cardGradient15: "rgba(255, 255, 255, 0.15)",
+  cardGradient35: "rgba(0, 0, 0, 0.35)",
 };

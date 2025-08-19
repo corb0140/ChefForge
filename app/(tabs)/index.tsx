@@ -1,42 +1,46 @@
 import HomeScreenChefCard from "@/components/HomeScreenChefCard";
 import HomeScreenTabCard from "@/components/HomeScreenTabCard";
+import MenuIcon from "@/components/UI/menuIcon";
 import { Colors } from "@/constants/Colors";
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // test data
-import { recipes } from "@/data/testData";
+import { Recipe, recipes } from "@/data/testData";
 
 const mealOptions = ["Dinner", "Dessert", "Lunch", "Breakfast"];
 
 export default function Index() {
-  const [selectedRecipe, setSelectedRecipes] = useState<
-    { id: string; name: string; description: string; imageUrl: string }[]
-  >([]);
+  const router = useRouter();
+  const [selectedRecipe, setSelectedRecipes] = useState<Recipe[]>([]);
   const [activeTab, setActiveTab] = useState("Breakfast");
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      let fetchedRecipes: {
-        id: string;
-        name: string;
-        description: string;
-        imageUrl: string;
-      }[] = [];
+      let fetchedRecipes: Recipe[] = [];
 
       switch (activeTab) {
         case "Breakfast":
-          fetchedRecipes = recipes.slice(0, 3);
+          fetchedRecipes = recipes.filter(
+            (recipe) => recipe.mealType === "Breakfast"
+          );
           break;
         case "Lunch":
-          fetchedRecipes = recipes.slice(1, 4);
+          fetchedRecipes = recipes.filter(
+            (recipe) => recipe.mealType === "Lunch"
+          );
           break;
         case "Dessert":
-          fetchedRecipes = recipes.slice(2, 5);
+          fetchedRecipes = recipes.filter(
+            (recipe) => recipe.mealType === "Dessert"
+          );
           break;
         case "Dinner":
-          fetchedRecipes = recipes.slice(3, 5);
+          fetchedRecipes = recipes.filter(
+            (recipe) => recipe.mealType === "Dinner"
+          );
           break;
         default:
           fetchedRecipes = [];
@@ -54,14 +58,7 @@ export default function Index() {
       <View style={styles.headerView}>
         <Text style={styles.headerTitle}>Recipes</Text>
 
-        <Pressable
-          onPress={() => console.log("test")}
-          style={styles.menuIconContainer}
-        >
-          {Array.from({ length: 4 }, (_, index) => {
-            return <View key={index} style={styles.menuIcon}></View>;
-          })}
-        </Pressable>
+        <MenuIcon color="black" />
       </View>
 
       {/* MEAL OPTIONS SCROLL LIST*/}
@@ -97,11 +94,15 @@ export default function Index() {
             horizontal
             showsHorizontalScrollIndicator={false}
             renderItem={({ item, index }) => (
-              <HomeScreenTabCard
-                key={index}
-                name={item.name}
-                description={item.description}
-              />
+              <Pressable
+                onPress={() => router.push(`/recipeDetail/${item.id}`)}
+              >
+                <HomeScreenTabCard
+                  key={index}
+                  name={item.name}
+                  description={item.description}
+                />
+              </Pressable>
             )}
             keyExtractor={(item: any) => item.id}
           />
@@ -144,20 +145,7 @@ const styles = StyleSheet.create({
     fontFamily: "Cairo-Bold",
     color: Colors.primary,
   },
-  menuIconContainer: {
-    height: "50%",
-    width: "7%",
-    flexWrap: "wrap",
-    flexDirection: "row",
-    gap: 1.5,
-    top: 5,
-  },
-  menuIcon: {
-    width: 8,
-    height: 8,
-    backgroundColor: "black",
-    borderRadius: 3,
-  },
+
   TabsAndScrollView: {
     flexDirection: "row",
     paddingTop: 20,

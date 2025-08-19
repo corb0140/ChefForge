@@ -97,7 +97,7 @@ export default function Index() {
           </Text>
 
           <Ionicons
-            name="chevron-forward"
+            name="arrow-forward"
             size={24}
             color={Colors.accent}
             style={{ position: "relative", top: 2 }}
