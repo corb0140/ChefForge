@@ -1,12 +1,13 @@
+import ForgeScreenComponent from "@/components/ForgeScreenComponent";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function MyForge() {
+  const picsumId = 432;
+
   return (
-    <View>
-      <Text>M</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ForgeScreenComponent user={{ isUser: true, id: picsumId.toString() }} />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({});

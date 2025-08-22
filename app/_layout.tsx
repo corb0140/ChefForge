@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { LogBox } from "react-native";
@@ -22,7 +23,16 @@ export default function RootLayout() {
     <Stack>
       {/* <Stack.Screen name="index" options={{ headerShown: false }} /> */}
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="recipeDetail/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="[id]/recipeDetail" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="[id]/settings"
+        options={{
+          title: "Settings",
+          headerStyle: { backgroundColor: Colors.background },
+          headerTitleStyle: { fontFamily: "Cairo-Bold", fontSize: 24 },
+          headerShadowVisible: false,
+        }}
+      />
     </Stack>
   );
 }

@@ -1,6 +1,6 @@
 import HomeScreenChefCard from "@/components/HomeScreenChefCard";
 import HomeScreenTabCard from "@/components/HomeScreenTabCard";
-import MenuIcon from "@/components/UI/menuIcon";
+import MenuIcon from "@/components/UI/MenuIcon";
 import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -95,7 +95,7 @@ export default function Index() {
             showsHorizontalScrollIndicator={false}
             renderItem={({ item, index }) => (
               <Pressable
-                onPress={() => router.push(`/recipeDetail/${item.id}`)}
+                onPress={() => router.push(`/${item.id}/recipeDetail`)}
               >
                 <HomeScreenTabCard
                   key={index}

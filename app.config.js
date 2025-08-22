@@ -5,6 +5,7 @@ export default {
     name: "ChefForge",
     slug: "ChefForge",
     version: "1.0.0",
+    owner: "kolizak",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     scheme: "chefforge",
@@ -19,6 +20,7 @@ export default {
         backgroundColor: "#ffffff",
       },
       edgeToEdgeEnabled: true,
+      package: "com.kolizak.chefforge",
     },
     web: {
       bundler: "metro",
@@ -39,6 +41,17 @@ export default {
     ],
     experiments: {
       typedRoutes: true,
+    },
+    extra: {
+      eas: {
+        projectId: "02d16bba-8260-415b-8921-f14ba46df7a2",
+      },
+    },
+    updates: {
+      url: "https://u.expo.dev/02d16bba-8260-415b-8921-f14ba46df7a2",
+    },
+    runtimeVersion: {
+      policy: "appVersion",
     },
   },
 };

@@ -1,4 +1,5 @@
-import MenuIcon from "@/components/UI/menuIcon";
+import MenuIcon from "@/components/UI/MenuIcon";
+import Tabs from "@/components/UI/Tabs";
 import { Colors } from "@/constants/Colors";
 import { recipes } from "@/data/testData";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,7 +8,7 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useLocalSearchParams } from "expo-router/build/hooks";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Pressable,
@@ -23,6 +24,32 @@ export default function RecipeDetail() {
   const router = useRouter();
   const recipe = recipes.find((recipe) => recipe.id === Number(id));
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isActive, setIsActive] = useState<"ingredients" | "instructions">(
+    "ingredients"
+  );
+  const [data, setData] = useState<string[]>([]);
+
+  useEffect(() => {
+    let ingredients: string[];
+    let instructions: string[];
+
+    const handleActiveTabContent = () => {
+      switch (true) {
+        case isActive === "ingredients":
+          ingredients = recipe?.ingredients || [""];
+          break;
+        case isActive === "instructions":
+          instructions = recipe?.instructions || [""];
+          break;
+        default:
+          ingredients = [""];
+      }
+
+      return setData(isActive === "ingredients" ? ingredients : instructions);
+    };
+
+    handleActiveTabContent();
+  }, [isActive, recipe]);
 
   return (
     <LinearGradient
@@ -120,64 +147,106 @@ export default function RecipeDetail() {
               {/* DESCRIPTION */}
               <Text style={styles.descriptionText}>{recipe?.description}</Text>
 
-              {/* INGREDIENTS */}
-              <View style={{ marginTop: 20 }}>
-                <Text style={styles.title}>Ingredients</Text>
-                {recipe?.ingredients?.map((ingredient, index) => (
-                  <Text key={index} style={styles.text}>
-                    - {ingredient}
-                  </Text>
-                ))}
+              {/* CHEF */}
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 15,
+                  borderBottomWidth: 1,
+                  borderBottomColor: Colors.opacWhite03,
+                  paddingBottom: 10,
+                }}
+              >
+                <View style={styles.chefAvatarContainer}>
+                  <Image
+                    source={require("@/assets/images/entry-bg.jpg")}
+                    style={styles.chefAvatar}
+                  />
+                </View>
+
+                <View>
+                  <Text style={styles.chefName}>{recipe?.chef?.name}</Text>
+                  <Text style={styles.chefInfo}>{recipe?.chef?.bio}</Text>
+                </View>
               </View>
 
-              {/* INSTRUCTIONS */}
-              <View style={{ marginTop: 20 }}>
-                <Text style={styles.title}>Instructions</Text>
-                {recipe?.instructions?.map((instruction, index) => (
-                  <Text key={index} style={styles.text}>
-                    {index + 1}. {instruction}
-                  </Text>
-                ))}
-              </View>
+              {/* TAB VIEW */}
+              <Tabs
+                isActive={isActive}
+                setIsActive={() => {
+                  setIsActive((prev) =>
+                    prev === "ingredients" ? "instructions" : "ingredients"
+                  );
+                }}
+              />
 
-              {/* PREPARATION TIME, COOKING TIME, SERVINGS */}
+              {/* INGREDIENTS & INSTRUCTIONS */}
+              {isActive === "ingredients" && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    marginTop: 10,
+                    alignItems: "center",
+                    gap: 5,
+                  }}
+                >
+                  <Text style={[styles.title, { fontSize: 15 }]}>Serves</Text>
+                  <Text style={[styles.title, { fontSize: 15 }]}>
+                    {recipe?.servings}
+                  </Text>
+                  <Text style={[styles.title, { fontSize: 15 }]}>
+                    {recipe?.servings === "1" ? "Person" : "People"}
+                  </Text>
+                </View>
+              )}
+
+              {data.map((item, index) => (
+                <View key={index} style={{ marginTop: 10 }}>
+                  <Text style={styles.text}>
+                    {index + 1}. {item}
+                  </Text>
+                </View>
+              ))}
+
+              {/* COMMENTS, LIKES, DOWNLOADS*/}
               <View
                 style={{
                   marginTop: 20,
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 20,
+                  gap: 25,
                 }}
               >
-                <View style={styles.mealTimeAndServingsView}>
+                <View style={styles.CommentsAndLikesView}>
                   <Ionicons
-                    name="time-outline"
+                    name="download-outline"
                     size={20}
                     color="white"
-                    style={{ marginRight: 5 }}
+                    style={{ marginRight: 5, marginBottom: 3 }}
                   />
-                  <Text style={styles.text}>{recipe?.preparationTime}</Text>
+                  <Text style={styles.text}>{recipe?.downloads}</Text>
                 </View>
 
-                <View style={styles.mealTimeAndServingsView}>
+                <View style={styles.CommentsAndLikesView}>
                   <Ionicons
-                    name="time-outline"
+                    name="heart-outline"
                     size={20}
                     color="white"
                     style={{ marginRight: 5 }}
                   />
-                  <Text style={styles.text}>{recipe?.cookingTime}</Text>
+                  <Text style={styles.text}>{recipe?.likes}</Text>
                 </View>
 
-                <View style={styles.mealTimeAndServingsView}>
+                <View style={styles.CommentsAndLikesView}>
                   <Ionicons
-                    name="people-outline"
+                    name="chatbox-outline"
                     size={20}
                     color="white"
-                    style={{ marginRight: 5 }}
+                    style={{ marginRight: 5, marginTop: 2 }}
                   />
-                  <Text style={styles.text}>{recipe?.servings}</Text>
+                  <Text style={styles.text}>{recipe?.comments?.length}</Text>
                 </View>
               </View>
             </ScrollView>
@@ -215,10 +284,10 @@ const styles = StyleSheet.create({
   },
   detailsWrapper: {
     height: 542,
-    width: width * 0.85,
+    width: width * 0.9,
     position: "absolute",
     bottom: 50,
-    left: width * 0.075,
+    left: width * 0.045,
     borderRadius: 30,
     overflow: "hidden",
     zIndex: 2,
@@ -259,7 +328,8 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   descriptionText: {
-    marginTop: 30,
+    marginTop: 25,
+    marginBottom: 5,
     fontFamily: "Cairo-Regular",
     color: "white",
     lineHeight: 20,
@@ -277,11 +347,35 @@ const styles = StyleSheet.create({
     color: "white",
     lineHeight: 20,
     fontSize: 15,
-    marginTop: 2,
   },
-  mealTimeAndServingsView: {
+  CommentsAndLikesView: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+  },
+  chefAvatarContainer: {
+    marginTop: 15,
+    marginBottom: 5,
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+    overflow: "hidden",
+    borderWidth: 2,
+    borderColor: Colors.pink,
+  },
+  chefAvatar: {
+    width: "100%",
+    height: "100%",
+  },
+  chefName: {
+    fontFamily: "Cairo-SemiBold",
+    color: "white",
+    fontSize: 16,
+    lineHeight: 22,
+  },
+  chefInfo: {
+    fontFamily: "Cairo-Regular",
+    color: "white",
+    fontSize: 12,
+    lineHeight: 20,
   },
 });
