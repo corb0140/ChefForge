@@ -33,6 +33,10 @@ export default function RootLayout() {
           headerShadowVisible: false,
         }}
       />
+      <Stack.Screen
+        name="+not-found"
+        options={{ title: "Not Found", headerShown: false }}
+      />
     </Stack>
   );
 }

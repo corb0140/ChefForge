@@ -109,9 +109,9 @@ export default function Index() {
         </View>
       </View>
 
-      {/* POPULAR CHEFS */}
+      {/* TOP CHEFS */}
       <View style={styles.ChefFlatListView}>
-        <Text style={styles.headerTitle}>Popular Chefs</Text>
+        <Text style={styles.headerTitle}>Top Chefs</Text>
 
         <FlatList
           data={[1, 2, 3, 4, 5]}

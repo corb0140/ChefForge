@@ -3,7 +3,7 @@ export const Colors = {
   secondary: "#71767A",
   background: "#F5F5F5",
   pink: "#f61067",
-  accent: "#fee440",
+  lightPink: "#f61068d3",
   brown: "#813405",
   deepskyblue: "#00bbf9",
   opacWhite01: "rgba(255, 255, 255, 0.15)",

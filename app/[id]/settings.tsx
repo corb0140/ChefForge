@@ -3,14 +3,7 @@ import { Colors } from "@/constants/Colors";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
-import {
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const platform = Platform.OS === "android" ? "android" : "ios";
@@ -20,98 +13,92 @@ export default function Settings() {
 
   return (
     <SafeAreaProvider>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.userAvatarAndNameContainer}>
-            <View style={styles.avatarContainer}>
-              <Image
-                source={{ uri: `https://picsum.photos/id/${id}/100/100` }}
-                style={styles.image}
-              />
-            </View>
-
-            <View style={{ alignItems: "flex-start" }}>
-              <Text style={styles.nameText}>John Doe</Text>
-              <Text style={styles.usernameText}>@johh_doe</Text>
-
-              <Pressable style={styles.editButton}>
-                <Text style={styles.editButtonText}>Edit</Text>
-              </Pressable>
-            </View>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.userAvatarAndNameContainer}>
+          <View style={styles.avatarContainer}>
+            <Image
+              source={{ uri: `https://picsum.photos/id/${id}/100/100` }}
+              style={styles.image}
+            />
           </View>
 
-          {/* ACCOUNT SETTINGS */}
-          <View style={styles.settingsContainer}>
-            <View style={styles.settingsSection}>
-              <Text style={styles.settingsSectionTitle}>Account</Text>
+          <View style={{ alignItems: "flex-start" }}>
+            <Text style={styles.nameText}>John Doe</Text>
+            <Text style={styles.usernameText}>@johh_doe</Text>
 
-              <SettingsButton
-                icon="lock-closed"
-                title="Change Password"
-                onPress={() => console.log("Change Password pressed")}
-              />
-
-              <SettingsButton
-                icon="mail"
-                title="Manage Email"
-                onPress={() => {}}
-              />
-
-              <SettingsButton
-                icon="notifications"
-                title="Notifications"
-                onPress={() => {}}
-              />
-            </View>
-
-            {/* DEVICE SETTINGS */}
-            <View style={styles.settingsSection}>
-              <Text style={styles.settingsSectionTitle}>Device</Text>
-
-              <SettingsButton
-                icon="language"
-                title="Language"
-                onPress={() => {}}
-              />
-
-              <SettingsButton
-                icon="contrast"
-                title="Display Mode"
-                onPress={() => {}}
-              />
-            </View>
-
-            {/* SYSTEM SETTINGS */}
-            <View style={styles.settingsSection}>
-              <Text style={styles.settingsSectionTitle}>System</Text>
-
-              <SettingsButton
-                icon="help-circle"
-                title="Help & Support"
-                onPress={() => {}}
-              />
-
-              <SettingsButton
-                icon="document-text"
-                title="Terms & Conditions"
-                onPress={() => {}}
-              />
-
-              <SettingsButton
-                icon="document-lock"
-                title="Privacy Policy"
-                onPress={() => {}}
-              />
-
-              <SettingsButton
-                icon="log-out"
-                title="Log Out"
-                onPress={() => {}}
-              />
-            </View>
+            <Pressable style={styles.editButton}>
+              <Text style={styles.editButtonText}>Edit</Text>
+            </Pressable>
           </View>
-        </SafeAreaView>
-      </ScrollView>
+        </View>
+
+        {/* ACCOUNT SETTINGS */}
+        <View style={styles.settingsContainer}>
+          <View style={styles.settingsSection}>
+            <Text style={styles.settingsSectionTitle}>Account</Text>
+
+            <SettingsButton
+              icon="lock-closed"
+              title="Change Password"
+              onPress={() => console.log("Change Password pressed")}
+            />
+
+            <SettingsButton
+              icon="mail"
+              title="Manage Email"
+              onPress={() => {}}
+            />
+
+            <SettingsButton
+              icon="notifications"
+              title="Notifications"
+              onPress={() => {}}
+            />
+          </View>
+
+          {/* DEVICE SETTINGS */}
+          <View style={styles.settingsSection}>
+            <Text style={styles.settingsSectionTitle}>Device</Text>
+
+            <SettingsButton
+              icon="language"
+              title="Language"
+              onPress={() => {}}
+            />
+
+            <SettingsButton
+              icon="contrast"
+              title="Display Mode"
+              onPress={() => {}}
+            />
+          </View>
+
+          {/* SYSTEM SETTINGS */}
+          <View style={styles.settingsSection}>
+            <Text style={styles.settingsSectionTitle}>System</Text>
+
+            <SettingsButton
+              icon="help-circle"
+              title="Help & Support"
+              onPress={() => {}}
+            />
+
+            <SettingsButton
+              icon="document-text"
+              title="Terms & Conditions"
+              onPress={() => {}}
+            />
+
+            <SettingsButton
+              icon="document-lock"
+              title="Privacy Policy"
+              onPress={() => {}}
+            />
+
+            <SettingsButton icon="log-out" title="Log Out" onPress={() => {}} />
+          </View>
+        </View>
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 }
