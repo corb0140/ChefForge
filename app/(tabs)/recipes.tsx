@@ -2,6 +2,7 @@ import PopularCategoryCard from "@/components/PopularCategoryCard";
 import PopularChefCard from "@/components/PopularChefCard";
 import RecentRecipeCard from "@/components/RecentRecipeCard";
 import TrendingNowCard from "@/components/TrendingNowCard";
+import SearchBar from "@/components/UI/SearchBar";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
@@ -11,7 +12,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,6 +20,7 @@ const popularCategory = ["Vegan", "Italian", "Breakfast", "Dessert", "Greek"];
 
 export default function Recipes() {
   const [category, setCategory] = useState(popularCategory[0]);
+  const [text, setText] = useState("");
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 10 }}>
@@ -29,12 +30,10 @@ export default function Recipes() {
           cooking
         </Text>
 
-        <TextInput
+        <SearchBar
           placeholder="Search recipes..."
-          autoCapitalize="none"
-          autoCorrect={false}
-          style={styles.searchInput}
-          placeholderTextColor={Colors.secondary}
+          value={text}
+          onChangeText={() => setText(text)}
         />
       </View>
 
@@ -181,13 +180,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: Colors.primary,
   },
-  searchInput: {
-    borderWidth: 1,
-    borderColor: Colors.pink,
-    borderRadius: 5,
-    padding: 10,
-    marginTop: 15,
-  },
+
   section: { marginTop: 20 },
   headerRow: {
     flexDirection: "row",

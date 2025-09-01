@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+import searchTextReducer from "./slices/searchTextSlice";
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
-    // Add your reducers here
+    searchText: searchTextReducer,
   },
 });
 

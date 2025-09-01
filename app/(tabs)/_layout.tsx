@@ -36,6 +36,7 @@ export default function TabsLayout() {
         options={{
           title: "Recipes",
           headerShown: false,
+
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "book" : "book-outline"}
@@ -77,9 +78,9 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
-        name="smartChef"
+        name="messages"
         options={{
-          title: "Smart Chef",
+          title: "ChefForge Messages",
           headerShown: false,
           tabBarIcon: ({ focused, color }) => (
             <Ionicons

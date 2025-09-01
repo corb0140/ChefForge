@@ -1,7 +1,9 @@
 import { Colors } from "@/constants/Colors";
+import { store } from "@/lib/store";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { LogBox } from "react-native";
+import { Provider } from "react-redux";
 
 LogBox.ignoreAllLogs(true);
 
@@ -20,23 +22,35 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      {/* <Stack.Screen name="index" options={{ headerShown: false }} /> */}
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="[id]/recipeDetail" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="[id]/settings"
-        options={{
-          title: "Settings",
-          headerStyle: { backgroundColor: Colors.background },
-          headerTitleStyle: { fontFamily: "Cairo-Bold", fontSize: 24 },
-          headerShadowVisible: false,
-        }}
-      />
-      <Stack.Screen
-        name="+not-found"
-        options={{ title: "Not Found", headerShown: false }}
-      />
-    </Stack>
+    <Provider store={store}>
+      <Stack>
+        {/* <Stack.Screen name="index" options={{ headerShown: false }} /> */}
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="[id]/recipeDetail"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="[id]/settings"
+          options={{
+            title: "Settings",
+            headerStyle: { backgroundColor: Colors.background },
+            headerTitleStyle: { fontFamily: "Cairo-Bold", fontSize: 24 },
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="[groupID]/chatRoom"
+          options={{
+            title: "Chat Room",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="+not-found"
+          options={{ title: "Not Found", headerShown: false }}
+        />
+      </Stack>
+    </Provider>
   );
 }

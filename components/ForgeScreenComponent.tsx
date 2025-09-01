@@ -50,15 +50,7 @@ export default function ForgeScreenComponent({
   return (
     <View style={{ flex: 1 }}>
       {isUser ? (
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-          }}
-        >
+        <View style={styles.userHeaderView}>
           <Text style={styles.headerTitle}>My Forge</Text>
 
           <Pressable onPress={() => router.push(`/${id}/settings`)}>
@@ -66,14 +58,7 @@ export default function ForgeScreenComponent({
           </Pressable>
         </View>
       ) : (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 10,
-            padding: 10,
-          }}
-        >
+        <View style={styles.notUserHeaderView}>
           <Pressable onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="black" />
           </Pressable>
@@ -175,6 +160,19 @@ export default function ForgeScreenComponent({
 }
 
 const styles = StyleSheet.create({
+  userHeaderView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  notUserHeaderView: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    padding: 10,
+  },
   headerTitle: {
     lineHeight: 30,
     fontSize: 20,
