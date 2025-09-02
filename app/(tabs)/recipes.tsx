@@ -20,7 +20,7 @@ const popularCategory = ["Vegan", "Italian", "Breakfast", "Dessert", "Greek"];
 
 export default function Recipes() {
   const [category, setCategory] = useState(popularCategory[0]);
-  const [text, setText] = useState("");
+  const [text, setText] = useState<string>("");
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 10 }}>
@@ -30,11 +30,22 @@ export default function Recipes() {
           cooking
         </Text>
 
-        <SearchBar
-          placeholder="Search recipes..."
-          value={text}
-          onChangeText={() => setText(text)}
-        />
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+          <SearchBar
+            placeholder="Search recipes..."
+            value={text}
+            onChangeText={(text) => setText(text)}
+          />
+
+          {text.length > 0 && (
+            <Ionicons
+              name="options-outline"
+              size={24}
+              color={Colors.primary}
+              style={{ marginTop: 15 }}
+            />
+          )}
+        </View>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
