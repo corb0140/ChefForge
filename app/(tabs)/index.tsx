@@ -1,5 +1,5 @@
-import HomeScreenChefCard from "@/components/HomeScreenChefCard";
-import HomeScreenTabCard from "@/components/HomeScreenTabCard";
+import HomeScreenChefCard from "@/components/cards/HomeScreenChefCard";
+import HomeScreenTabCard from "@/components/cards/HomeScreenTabCard";
 import MenuIcon from "@/components/UI/MenuIcon";
 import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
@@ -53,75 +53,77 @@ export default function Index() {
   }, [activeTab]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.headerView}>
-        <Text style={styles.headerTitle}>Recipes</Text>
+    <View style={{ flex: 1 }}>
+      <SafeAreaView style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.headerView}>
+          <Text style={styles.headerTitle}>Recipes</Text>
 
-        <MenuIcon color="black" />
-      </View>
-
-      {/* MEAL OPTIONS SCROLL LIST*/}
-      <View style={styles.TabsAndScrollView}>
-        {/* TABS */}
-        <View style={styles.TabsView}>
-          {mealOptions.map((option, index) => {
-            return (
-              <Pressable
-                key={index}
-                style={styles.TabsButton}
-                onPress={() => setActiveTab(option)}
-              >
-                <Text
-                  style={[
-                    activeTab === option
-                      ? styles.activeOptionText
-                      : styles.optionText,
-                    { lineHeight: 25, fontSize: 16 },
-                  ]}
-                >
-                  {option}
-                </Text>
-              </Pressable>
-            );
-          })}
+          <MenuIcon color="black" menuOpen={() => router.push("/about")} />
         </View>
 
-        {/* FLAT LIST */}
-        <View style={styles.RecipesFlatListView}>
+        {/* MEAL OPTIONS SCROLL LIST*/}
+        <View style={styles.TabsAndScrollView}>
+          {/* TABS */}
+          <View style={styles.TabsView}>
+            {mealOptions.map((option, index) => {
+              return (
+                <Pressable
+                  key={index}
+                  style={styles.TabsButton}
+                  onPress={() => setActiveTab(option)}
+                >
+                  <Text
+                    style={[
+                      activeTab === option
+                        ? styles.activeOptionText
+                        : styles.optionText,
+                      { lineHeight: 25, fontSize: 16 },
+                    ]}
+                  >
+                    {option}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+
+          {/* FLAT LIST */}
+          <View style={styles.RecipesFlatListView}>
+            <FlatList
+              data={selectedRecipe}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item, index }) => (
+                <Pressable
+                  onPress={() => router.push(`/${item.id}/recipeDetail`)}
+                >
+                  <HomeScreenTabCard
+                    key={index}
+                    name={item.name}
+                    description={item.description}
+                  />
+                </Pressable>
+              )}
+              keyExtractor={(item: any) => item.id}
+            />
+          </View>
+        </View>
+
+        {/* TOP CHEFS */}
+        <View style={styles.ChefFlatListView}>
+          <Text style={styles.headerTitle}>Top Chefs</Text>
+
           <FlatList
-            data={selectedRecipe}
+            data={[1, 2, 3, 4, 5]}
             horizontal
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <Pressable
-                onPress={() => router.push(`/${item.id}/recipeDetail`)}
-              >
-                <HomeScreenTabCard
-                  key={index}
-                  name={item.name}
-                  description={item.description}
-                />
-              </Pressable>
-            )}
-            keyExtractor={(item: any) => item.id}
+            renderItem={({ item }) => <HomeScreenChefCard />}
+            keyExtractor={(item) => item.toString()}
           />
         </View>
-      </View>
-
-      {/* TOP CHEFS */}
-      <View style={styles.ChefFlatListView}>
-        <Text style={styles.headerTitle}>Top Chefs</Text>
-
-        <FlatList
-          data={[1, 2, 3, 4, 5]}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => <HomeScreenChefCard />}
-          keyExtractor={(item) => item.toString()}
-        />
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   );
 }
 

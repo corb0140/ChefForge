@@ -17,7 +17,7 @@ export default function PopularCategoryCard({
         style={styles.imageContainer}
       >
         <Image
-          source={require("../assets/images/entry-bg.jpg")}
+          source={require("@/assets/images/entry-bg.jpg")}
           style={styles.image}
         />
       </LinearGradient>

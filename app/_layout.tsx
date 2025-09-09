@@ -47,6 +47,27 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
+          name="about"
+          options={{
+            title: "About",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="login"
+          options={{
+            title: "Log In",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="signup"
+          options={{
+            title: "Sign Up",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="+not-found"
           options={{ title: "Not Found", headerShown: false }}
         />

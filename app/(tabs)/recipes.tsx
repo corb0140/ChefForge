@@ -1,7 +1,8 @@
-import PopularCategoryCard from "@/components/PopularCategoryCard";
-import PopularChefCard from "@/components/PopularChefCard";
-import RecentRecipeCard from "@/components/RecentRecipeCard";
-import TrendingNowCard from "@/components/TrendingNowCard";
+import PopularCategoryCard from "@/components/cards/PopularCategoryCard";
+import PopularChefCard from "@/components/cards/PopularChefCard";
+import RecentRecipeCard from "@/components/cards/RecentRecipeCard";
+import TrendingNowCard from "@/components/cards/TrendingNowCard";
+import FilterModal from "@/components/filterModal";
 import SearchBar from "@/components/UI/SearchBar";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -21,164 +22,188 @@ const popularCategory = ["Vegan", "Italian", "Breakfast", "Dessert", "Greek"];
 export default function Recipes() {
   const [category, setCategory] = useState(popularCategory[0]);
   const [text, setText] = useState<string>("");
+  const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 10 }}>
-      <View style={{ marginBottom: 10 }}>
-        <Text style={styles.headerText}>
-          Find <Text style={{ color: Colors.pink }}>best recipes</Text> for
-          cooking
-        </Text>
+    <>
+      <SafeAreaView style={{ flex: 1, padding: 10 }}>
+        <View style={{ marginBottom: 10 }}>
+          <Text style={styles.headerText}>
+            Find <Text style={{ color: Colors.pink }}>best recipes</Text> for
+            cooking
+          </Text>
 
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <SearchBar
-            placeholder="Search recipes..."
-            value={text}
-            onChangeText={(text) => setText(text)}
-          />
-
-          {text.length > 0 && (
-            <Ionicons
-              name="options-outline"
-              size={24}
-              color={Colors.primary}
-              style={{ marginTop: 15 }}
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <SearchBar
+              placeholder="Search recipes..."
+              value={text}
+              onChangeText={(text) => setText(text)}
             />
-          )}
-        </View>
-      </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-        {/* TRENDING NOW */}
-        <View style={styles.section}>
-          <View style={styles.headerRow}>
-            <Text style={styles.sectionTitle}>Trending Now</Text>
-
-            <Pressable
-              style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
-              onPress={() => console.log("See all pressed")}
-            >
-              <Text style={styles.seeAllText}>See all</Text>
-              <Ionicons name="chevron-forward" size={20} color={Colors.pink} />
-            </Pressable>
-          </View>
-
-          <FlatList
-            data={[1, 2, 3]}
-            renderItem={({ item, index }) => (
-              <TrendingNowCard
-                chefName={`Chef ${item}`}
-                recipeName={`Lorem ipsum dolor sit amet consectetur ${item}`}
-                isFavorite={item === index + 1}
-              />
-            )}
-            keyExtractor={(item) => item.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-
-        {/* POPULAR CATEGORIES */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Popular Categories</Text>
-
-          <FlatList
-            style={{ marginTop: 5 }}
-            data={popularCategory}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <Pressable
-                onPress={() => setCategory(item)}
-                style={[
-                  styles.categoryButton,
-                  category === item && styles.categoryButtonSelected,
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.categoryButtonText,
-                    category === item && styles.categoryButtonTextSelected,
-                  ]}
-                >
-                  {item}
-                </Text>
+            {text.length > 0 && (
+              <Pressable onPress={() => setIsFilterModalVisible(true)}>
+                <Ionicons
+                  name="options-outline"
+                  size={24}
+                  color={Colors.primary}
+                  style={{ marginTop: 15 }}
+                />
               </Pressable>
             )}
-          />
-
-          <FlatList
-            data={[1, 2, 3]}
-            renderItem={({ item }) => (
-              <PopularCategoryCard
-                recipeName={`Recipe ${item}`}
-                chefName={`Chef ${item}`}
-              />
-            )}
-            keyExtractor={(item) => item.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
+          </View>
         </View>
 
-        {/* RECENT RECIPES */}
-        <View style={styles.section}>
-          <View style={styles.headerRow}>
-            <Text style={styles.sectionTitle}>Recent Recipes</Text>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+          {/* TRENDING NOW */}
+          <View style={styles.section}>
+            <View style={styles.headerRow}>
+              <Text style={styles.sectionTitle}>Trending Now</Text>
 
-            <Pressable
-              style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
-              onPress={() => console.log("See all pressed")}
-            >
-              <Text style={styles.seeAllText}>See all</Text>
-              <Ionicons name="chevron-forward" size={20} color={Colors.pink} />
-            </Pressable>
+              <Pressable
+                style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
+                onPress={() => console.log("See all pressed")}
+              >
+                <Text style={styles.seeAllText}>See all</Text>
+                <Ionicons
+                  name="chevron-forward"
+                  size={20}
+                  color={Colors.pink}
+                />
+              </Pressable>
+            </View>
+
+            <FlatList
+              data={[1, 2, 3]}
+              renderItem={({ item, index }) => (
+                <TrendingNowCard
+                  chefName={`Chef ${item}`}
+                  recipeName={`Lorem ipsum dolor sit amet consectetur ${item}`}
+                  isFavorite={item === index + 1}
+                />
+              )}
+              keyExtractor={(item) => item.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
           </View>
 
-          <FlatList
-            data={[1, 2, 3, 4, 5, 6]}
-            renderItem={({ item }) => (
-              <RecentRecipeCard
-                recipeName={`Recipe ${item}`}
-                chefName={`Chef ${item}`}
-              />
-            )}
-            keyExtractor={(item) => item.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{ marginTop: 10 }}
-          />
-        </View>
+          {/* POPULAR CATEGORIES */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Popular Categories</Text>
 
-        {/* POPULAR CHEFS */}
-        <View style={[styles.section, { marginBottom: 60 }]}>
-          <View style={styles.headerRow}>
-            <Text style={styles.sectionTitle}>Popular Chefs</Text>
+            <FlatList
+              style={{ marginTop: 5 }}
+              data={popularCategory}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <Pressable
+                  onPress={() => setCategory(item)}
+                  style={[
+                    styles.categoryButton,
+                    category === item && styles.categoryButtonSelected,
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.categoryButtonText,
+                      category === item && styles.categoryButtonTextSelected,
+                    ]}
+                  >
+                    {item}
+                  </Text>
+                </Pressable>
+              )}
+            />
 
-            <Pressable
-              style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
-              onPress={() => console.log("See all pressed")}
-            >
-              <Text style={styles.seeAllText}>See all</Text>
-              <Ionicons name="chevron-forward" size={20} color={Colors.pink} />
-            </Pressable>
+            <FlatList
+              data={[1, 2, 3]}
+              renderItem={({ item }) => (
+                <PopularCategoryCard
+                  recipeName={`Recipe ${item}`}
+                  chefName={`Chef ${item}`}
+                />
+              )}
+              keyExtractor={(item) => item.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
           </View>
 
-          <FlatList
-            data={[1, 2, 3, 4]}
-            renderItem={({ item }) => (
-              <PopularChefCard
-                followers={`${10 * item + "k"}`}
-                chefName={`Chef ${item}`}
-              />
-            )}
-            keyExtractor={(item) => item.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          {/* RECENT RECIPES */}
+          <View style={styles.section}>
+            <View style={styles.headerRow}>
+              <Text style={styles.sectionTitle}>Recent Recipes</Text>
+
+              <Pressable
+                style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
+                onPress={() => console.log("See all pressed")}
+              >
+                <Text style={styles.seeAllText}>See all</Text>
+                <Ionicons
+                  name="chevron-forward"
+                  size={20}
+                  color={Colors.pink}
+                />
+              </Pressable>
+            </View>
+
+            <FlatList
+              data={[1, 2, 3, 4, 5, 6]}
+              renderItem={({ item }) => (
+                <RecentRecipeCard
+                  recipeName={`Recipe ${item}`}
+                  chefName={`Chef ${item}`}
+                />
+              )}
+              keyExtractor={(item) => item.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={{ marginTop: 10 }}
+            />
+          </View>
+
+          {/* POPULAR CHEFS */}
+          <View style={[styles.section, { marginBottom: 60 }]}>
+            <View style={styles.headerRow}>
+              <Text style={styles.sectionTitle}>Popular Chefs</Text>
+
+              <Pressable
+                style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
+                onPress={() => console.log("See all pressed")}
+              >
+                <Text style={styles.seeAllText}>See all</Text>
+                <Ionicons
+                  name="chevron-forward"
+                  size={20}
+                  color={Colors.pink}
+                />
+              </Pressable>
+            </View>
+
+            <FlatList
+              data={[1, 2, 3, 4]}
+              renderItem={({ item }) => (
+                <PopularChefCard
+                  followers={`${10 * item + "k"}`}
+                  chefName={`Chef ${item}`}
+                />
+              )}
+              keyExtractor={(item) => item.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+
+      {isFilterModalVisible && (
+        <FilterModal
+          visible={isFilterModalVisible}
+          onClose={() => setIsFilterModalVisible(false)}
+        />
+      )}
+    </>
   );
 }
 

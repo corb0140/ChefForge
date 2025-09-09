@@ -239,3 +239,13 @@ export const recipes: Recipe[] = [
     downloads: 200,
   },
 ];
+
+export const countries = [
+  "United States",
+  "Nigeria",
+  "Norway",
+  "Morocco",
+  "Chile",
+  "Australia",
+  "Japan",
+];

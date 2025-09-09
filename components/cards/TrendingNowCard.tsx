@@ -20,7 +20,7 @@ export default function TrendingNowCard({
     <View style={styles.card}>
       <View style={styles.imageContainer}>
         <Image
-          source={require("../assets/images/entry-bg.jpg")}
+          source={require("@/assets/images/entry-bg.jpg")}
           style={styles.image}
         />
 
@@ -50,7 +50,7 @@ export default function TrendingNowCard({
         <View style={styles.userContainer}>
           <View style={styles.avatarContainer}>
             <Image
-              source={require("../assets/images/entry-bg.jpg")}
+              source={require("@/assets/images/entry-bg.jpg")}
               style={styles.userImage}
             />
           </View>

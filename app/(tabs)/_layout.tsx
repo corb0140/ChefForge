@@ -99,7 +99,6 @@ export default function TabsLayout() {
 const styles = StyleSheet.create({
   tabBarButton: {
     position: "absolute",
-    zIndex: 1,
     top: -20,
     alignSelf: "center",
     backgroundColor: Colors.background,

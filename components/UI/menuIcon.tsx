@@ -1,12 +1,15 @@
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
-export default function MenuIcon({ color }: { color: string }) {
+export default function MenuIcon({
+  color,
+  menuOpen,
+}: {
+  color: string;
+  menuOpen: () => void;
+}) {
   return (
-    <Pressable
-      onPress={() => console.log("test")}
-      style={styles.menuIconContainer}
-    >
+    <Pressable onPress={menuOpen} style={styles.menuIconContainer}>
       {Array.from({ length: 4 }, (_, index) => {
         return (
           <View
