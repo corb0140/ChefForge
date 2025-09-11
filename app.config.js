@@ -43,6 +43,7 @@ export default {
       typedRoutes: true,
     },
     extra: {
+      API_URL: process.env.API_URL,
       eas: {
         projectId: "02d16bba-8260-415b-8921-f14ba46df7a2",
       },

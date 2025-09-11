@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/Colors";
+import { UserState } from "@/lib/slices/userSlice";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { Link, router } from "expo-router";
@@ -10,14 +11,13 @@ import Tabs from "./UI/Tabs";
 const numOfColumns = 3;
 
 export type ForgeScreenComponentProps = {
-  user: {
-    isUser: boolean;
-    id: string;
-  };
+  user: UserState["user"];
+  chefId?: string;
 };
 
 export default function ForgeScreenComponent({
-  user: { isUser, id },
+  user: { id, email, first_name, last_name, bio },
+  chefId,
 }: ForgeScreenComponentProps) {
   const [count, setCount] = useState({
     posts: 2000,
@@ -49,7 +49,7 @@ export default function ForgeScreenComponent({
 
   return (
     <View style={{ flex: 1 }}>
-      {isUser ? (
+      {id ? (
         <View style={styles.userHeaderView}>
           <Text style={styles.headerTitle}>My Forge</Text>
 
@@ -79,10 +79,18 @@ export default function ForgeScreenComponent({
 
         {/* PROFILE INFO */}
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.profileName}>John Doe</Text>
-          <Text style={styles.profileBio}>Lorem ipsum dolor sit amet</Text>
-          <Link href="https://example.com" style={styles.link}>
-            www.johndoe@example.com
+          {chefId && <Text style={styles.profileName}>John Doe</Text>}
+
+          {id && (
+            <Text style={styles.profileName}>
+              {first_name} {last_name}
+            </Text>
+          )}
+
+          <Text style={styles.profileBio}>{chefId ? "bio" : bio}</Text>
+
+          <Link href={`mailto:${email}`} style={styles.link}>
+            {chefId ? "john.doe@example.com" : email}
           </Link>
         </View>
 
@@ -119,7 +127,7 @@ export default function ForgeScreenComponent({
         </View>
 
         {/* BUTTONS */}
-        {!isUser && (
+        {chefId && (
           <View style={{ flexDirection: "row", gap: 10, marginTop: 12 }}>
             <ProfileButton
               text="Follow"

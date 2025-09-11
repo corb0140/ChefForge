@@ -6,6 +6,7 @@ import FilterModal from "@/components/filterModal";
 import SearchBar from "@/components/UI/SearchBar";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   FlatList,
@@ -23,6 +24,7 @@ export default function Recipes() {
   const [category, setCategory] = useState(popularCategory[0]);
   const [text, setText] = useState<string>("");
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -183,11 +185,17 @@ export default function Recipes() {
 
             <FlatList
               data={[1, 2, 3, 4]}
-              renderItem={({ item }) => (
-                <PopularChefCard
-                  followers={`${10 * item + "k"}`}
-                  chefName={`Chef ${item}`}
-                />
+              renderItem={({ item, index }) => (
+                <Pressable
+                  onPress={() =>
+                    router.push(`/${index * 1234567890}/userForge`)
+                  }
+                >
+                  <PopularChefCard
+                    followers={`${10 * item + "k"}`}
+                    chefName={`Chef ${item}`}
+                  />
+                </Pressable>
               )}
               keyExtractor={(item) => item.toString()}
               horizontal

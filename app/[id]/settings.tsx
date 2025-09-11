@@ -1,7 +1,10 @@
 import SettingsButton from "@/components/UI/SettingsButton";
 import { Colors } from "@/constants/Colors";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { logOut } from "@/lib/axios";
+import { clearCredentials } from "@/lib/slices/userSlice";
 import { Image } from "expo-image";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -10,6 +13,19 @@ const platform = Platform.OS === "android" ? "android" : "ios";
 
 export default function Settings() {
   const { id } = useLocalSearchParams() as { id: string };
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+
+      dispatch(clearCredentials());
+      router.replace("/(tabs)/myForge");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   return (
     <SafeAreaProvider>
@@ -95,7 +111,11 @@ export default function Settings() {
               onPress={() => {}}
             />
 
-            <SettingsButton icon="log-out" title="Log Out" onPress={() => {}} />
+            <SettingsButton
+              icon="log-out"
+              title="Log Out"
+              onPress={handleLogout}
+            />
           </View>
         </View>
       </SafeAreaView>

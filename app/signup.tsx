@@ -1,13 +1,54 @@
 import { Colors } from "@/constants/Colors";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { logIn, signUp } from "@/lib/axios";
+import { setCredentials } from "@/lib/slices/userSlice";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Login() {
+export default function SignUp() {
+  const dispatch = useAppDispatch();
   const router = useRouter();
+  const [inputData, setInputData] = useState<{
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    bio?: string;
+  }>({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    bio: "",
+  });
+
+  const handleSignUp = async () => {
+    try {
+      const { first_name, last_name, email, password, bio } = inputData;
+
+      await signUp(email, password, first_name, last_name, bio || "no bio");
+
+      const userData = await logIn(email, password);
+
+      dispatch(
+        setCredentials({
+          user: userData.user,
+          accessToken: userData.accessToken,
+        })
+      );
+    } catch (error) {
+      console.warn(error);
+      return;
+    } finally {
+      setInputData({ first_name: "", last_name: "", email: "", password: "" });
+      console.log("User signed up successfully");
+      router.push("/(tabs)/myForge");
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -29,20 +70,42 @@ export default function Login() {
 
         <View style={{ width: "100%", marginBottom: 20 }}>
           <View>
-            <TextInput placeholder="First Name" style={styles.input} />
-            <TextInput placeholder="Last Name" style={styles.input} />
-            <TextInput placeholder="Email" style={styles.input} />
+            <TextInput
+              placeholder="First Name"
+              style={styles.input}
+              value={inputData.first_name}
+              onChangeText={(text) =>
+                setInputData({ ...inputData, first_name: text })
+              }
+            />
+            <TextInput
+              placeholder="Last Name"
+              style={styles.input}
+              value={inputData.last_name}
+              onChangeText={(text) =>
+                setInputData({ ...inputData, last_name: text })
+              }
+            />
+            <TextInput
+              placeholder="Email"
+              style={styles.input}
+              value={inputData.email}
+              onChangeText={(text) =>
+                setInputData({ ...inputData, email: text })
+              }
+            />
             <TextInput
               placeholder="Password"
               style={styles.input}
+              value={inputData.password}
+              onChangeText={(text) =>
+                setInputData({ ...inputData, password: text })
+              }
               secureTextEntry
             />
           </View>
 
-          <Pressable
-            style={styles.button}
-            onPress={() => router.push("/(tabs)")}
-          >
+          <Pressable style={styles.button} onPress={handleSignUp}>
             <Text style={styles.buttonText}>Sign Up</Text>
           </Pressable>
         </View>

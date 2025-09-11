@@ -25,11 +25,14 @@ export default function RootLayout() {
     <Provider store={store}>
       <Stack>
         {/* <Stack.Screen name="index" options={{ headerShown: false }} /> */}
+
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
         <Stack.Screen
           name="[id]/recipeDetail"
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="[id]/settings"
           options={{
@@ -39,6 +42,7 @@ export default function RootLayout() {
             headerShadowVisible: false,
           }}
         />
+
         <Stack.Screen
           name="[groupID]/chatRoom"
           options={{
@@ -46,6 +50,7 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
+
         <Stack.Screen
           name="about"
           options={{
@@ -53,6 +58,7 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
+
         <Stack.Screen
           name="login"
           options={{
@@ -60,6 +66,7 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
+
         <Stack.Screen
           name="signup"
           options={{
@@ -67,6 +74,15 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
+
+        <Stack.Screen
+          name="[id]/userForge"
+          options={{
+            title: "User Forge",
+            headerShown: false,
+          }}
+        />
+
         <Stack.Screen
           name="+not-found"
           options={{ title: "Not Found", headerShown: false }}

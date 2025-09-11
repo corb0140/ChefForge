@@ -1,13 +1,39 @@
 import { Colors } from "@/constants/Colors";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { logIn } from "@/lib/axios";
+import { setCredentials } from "@/lib/slices/userSlice";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Login() {
+  const [userData, setUserData] = useState<{ email: string; password: string }>(
+    { email: "", password: "" }
+  );
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const handleLogin = async () => {
+    try {
+      const { email, password } = userData;
+
+      const response = await logIn(email, password);
+
+      dispatch(
+        setCredentials({
+          user: response.user,
+          accessToken: response.accessToken,
+        })
+      );
+
+      router.replace("/(tabs)/myForge");
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -29,18 +55,25 @@ export default function Login() {
 
         <View style={{ width: "100%", marginBottom: 20 }}>
           <View>
-            <TextInput placeholder="Email" style={styles.input} />
+            <TextInput
+              placeholder="Email"
+              style={styles.input}
+              value={userData.email}
+              onChangeText={(text) => setUserData({ ...userData, email: text })}
+            />
+
             <TextInput
               placeholder="Password"
               style={styles.input}
               secureTextEntry
+              value={userData.password}
+              onChangeText={(text) =>
+                setUserData({ ...userData, password: text })
+              }
             />
           </View>
 
-          <Pressable
-            style={styles.button}
-            onPress={() => router.push("/(tabs)")}
-          >
+          <Pressable style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Log In</Text>
           </Pressable>
         </View>
