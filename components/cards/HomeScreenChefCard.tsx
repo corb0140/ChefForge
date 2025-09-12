@@ -1,12 +1,30 @@
 import { Colors } from "@/constants/Colors";
+import { Image } from "expo-image";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function HomeScreenChefCard() {
+export default function HomeScreenChefCard({
+  followers,
+}: {
+  followers: number;
+}) {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.card}>
-        <Text style={styles.text}>HomeScreenChefCard</Text>
+        <View style={styles.imageView}>
+          <Image
+            source={require("@/assets/images/entry-bg.jpg")}
+            style={{ width: "100%", height: "100%" }}
+            contentFit="cover"
+          />
+        </View>
+
+        <Text style={styles.text}>Chef Name</Text>
+
+        <Text style={styles.text}>
+          {followers > 999 ? `${(followers / 1000).toFixed(1)}k` : followers}{" "}
+          Followers
+        </Text>
       </View>
 
       <View style={styles.shadow} />
@@ -30,10 +48,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
     borderWidth: 1,
-  },
-  text: {
-    fontFamily: "Cairo-Regular",
-    fontSize: 14,
+    alignItems: "center",
+    justifyContent: "space-around",
   },
   shadow: {
     backgroundColor: Colors.primary,
@@ -45,5 +61,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     opacity: 0.785,
     zIndex: -1,
+  },
+  imageView: {
+    height: "60%",
+    width: "60%",
+    borderRadius: 50,
+    overflow: "hidden",
+  },
+  text: {
+    fontFamily: "Cairo-Regular",
+    fontSize: 14,
+    lineHeight: 20,
   },
 });

@@ -118,7 +118,13 @@ export default function Index() {
             data={[1, 2, 3, 4, 5]}
             horizontal
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => <HomeScreenChefCard />}
+            renderItem={({ item, index }) => (
+              <Pressable
+                onPress={() => router.push(`/${index * 1234567890}/userForge`)}
+              >
+                <HomeScreenChefCard followers={item * 4567} />
+              </Pressable>
+            )}
             keyExtractor={(item) => item.toString()}
           />
         </View>

@@ -7,16 +7,22 @@ export default {
     version: "1.0.0",
     owner: "kolizak",
     orientation: "portrait",
-    icon: "./assets/images/icon.png",
+    icon: "./assets/images/splash.png",
     scheme: "chefforge",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     ios: {
       supportsTablet: true,
+      icon: {
+        dark: "./assets/icons/ios-dark.png",
+        light: "./assets/icons/ios-light.png",
+        tinted: "./assets/icons/ios-tinted.png",
+      },
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/images/adaptive-icon.png",
+        foregroundImage: "./assets/icons/adaptive-icon.png",
+        monoChromeImage: "./assets/icons/adaptive-icon.png",
         backgroundColor: "#ffffff",
       },
       edgeToEdgeEnabled: true,
@@ -32,10 +38,15 @@ export default {
       [
         "expo-splash-screen",
         {
-          image: "./assets/images/splash-icon.png",
+          image: "./assets/icons/splash-icon-dark.png",
           imageWidth: 200,
-          resizeMode: "contain",
+          resizeMode: "cover",
           backgroundColor: "#ffffff",
+
+          dark: {
+            image: "./assets/icons/splash-icon-light.png",
+            backgroundColor: "#000000",
+          },
         },
       ],
     ],
