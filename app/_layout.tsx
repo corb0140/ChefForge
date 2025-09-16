@@ -2,6 +2,8 @@ import { Colors } from "@/constants/Colors";
 import { store } from "@/lib/store";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
 import { LogBox } from "react-native";
 import { Provider } from "react-redux";
 
@@ -16,6 +18,12 @@ export default function RootLayout() {
     "Cairo-Medium": require("../assets/fonts/Cairo-Medium.ttf"),
     "Cairo-ExtraBold": require("../assets/fonts/Cairo-ExtraBold.ttf"),
   });
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hide();
+    }
+  }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;

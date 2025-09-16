@@ -1,7 +1,9 @@
 import "dotenv/config";
 
-export default {
+export default ({ config }) => ({
+  ...config,
   expo: {
+    ...config.expo,
     name: "ChefForge",
     slug: "ChefForge",
     version: "1.0.0",
@@ -18,6 +20,7 @@ export default {
         light: "./assets/icons/ios-light.png",
         tinted: "./assets/icons/ios-tinted.png",
       },
+      bundleIdentifier: "com.kolizak.chefforge",
     },
     android: {
       adaptiveIcon: {
@@ -34,6 +37,8 @@ export default {
       favicon: "./assets/images/favicon.png",
     },
     plugins: [
+      "expo-font",
+      "expo-web-browser",
       "expo-router",
       [
         "expo-splash-screen",
@@ -42,7 +47,6 @@ export default {
           imageWidth: 200,
           resizeMode: "cover",
           backgroundColor: "#ffffff",
-
           dark: {
             image: "./assets/icons/splash-icon-light.png",
             backgroundColor: "#000000",
@@ -62,8 +66,7 @@ export default {
     updates: {
       url: "https://u.expo.dev/02d16bba-8260-415b-8921-f14ba46df7a2",
     },
-    runtimeVersion: {
-      policy: "appVersion",
-    },
+
+    runtimeVersion: config.version,
   },
-};
+});
