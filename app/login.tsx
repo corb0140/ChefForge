@@ -1,6 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { logIn } from "@/lib/axios";
+import { saveToken, saveUser } from "@/lib/secureStore";
 import { setCredentials } from "@/lib/slices/userSlice";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
@@ -22,12 +23,17 @@ export default function Login() {
 
       const response = await logIn(email, password);
 
-      dispatch(
-        setCredentials({
-          user: response.user,
-          accessToken: response.accessToken,
-        })
-      );
+      if (response.accessToken && response.refreshToken) {
+        await saveToken("refreshToken", response.refreshToken);
+        await saveUser("user", response.user);
+
+        dispatch(
+          setCredentials({
+            user: response.user,
+            accessToken: response.accessToken,
+          })
+        );
+      }
 
       router.replace("/(tabs)/myForge");
     } catch (error) {

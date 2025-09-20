@@ -9,7 +9,7 @@ export interface UserState {
     last_name: string;
     bio: string;
   };
-  accessToken: null;
+  accessToken: string | null;
 }
 
 const initialState: UserState = {
@@ -29,7 +29,7 @@ const userSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      action: PayloadAction<{ user: UserState["user"]; accessToken: any }>
+      action: PayloadAction<{ user: UserState["user"]; accessToken: string }>
     ) => {
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;

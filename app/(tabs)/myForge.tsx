@@ -8,7 +8,7 @@ export default function MyForge() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {user.user.id !== "" ? (
+      {user.user ? (
         <ForgeScreenComponent user={user.user} />
       ) : (
         <ForgeScreenNotLoggedInComponent />

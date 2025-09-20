@@ -2,9 +2,10 @@ import SettingsButton from "@/components/UI/SettingsButton";
 import { Colors } from "@/constants/Colors";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { logOut } from "@/lib/axios";
+import { deleteToken } from "@/lib/secureStore";
 import { clearCredentials } from "@/lib/slices/userSlice";
 import { Image } from "expo-image";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -12,7 +13,6 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 const platform = Platform.OS === "android" ? "android" : "ios";
 
 export default function Settings() {
-  const { id } = useLocalSearchParams() as { id: string };
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -21,6 +21,8 @@ export default function Settings() {
       await logOut();
 
       dispatch(clearCredentials());
+      await deleteToken("refreshToken");
+
       router.replace("/(tabs)/myForge");
     } catch (error) {
       console.error("Error logging out:", error);
@@ -33,7 +35,7 @@ export default function Settings() {
         <View style={styles.userAvatarAndNameContainer}>
           <View style={styles.avatarContainer}>
             <Image
-              source={{ uri: `https://picsum.photos/id/${id}/100/100` }}
+              // source={{ uri: `https://picsum.photos/id/${id}/100/100` }}
               style={styles.image}
             />
           </View>

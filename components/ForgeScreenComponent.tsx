@@ -28,6 +28,13 @@ export default function ForgeScreenComponent({
   const [data, setData] = useState<string[]>([]);
 
   useEffect(() => {
+    console.log("ForgeScreenComponent user prop:", {
+      id,
+      email,
+      first_name,
+      last_name,
+      bio,
+    });
     const setText = () => {
       let text: string[];
       switch (true) {
@@ -53,7 +60,7 @@ export default function ForgeScreenComponent({
         <View style={styles.userHeaderView}>
           <Text style={styles.headerTitle}>My Forge</Text>
 
-          <Pressable onPress={() => router.push(`/${id}/settings`)}>
+          <Pressable onPress={() => router.push(`/settings`)}>
             <Ionicons name="settings-outline" size={24} color="black" />
           </Pressable>
         </View>
