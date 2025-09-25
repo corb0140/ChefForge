@@ -2,7 +2,7 @@ import PopularCategoryCard from "@/components/cards/PopularCategoryCard";
 import PopularChefCard from "@/components/cards/PopularChefCard";
 import RecentRecipeCard from "@/components/cards/RecentRecipeCard";
 import TrendingNowCard from "@/components/cards/TrendingNowCard";
-import FilterModal from "@/components/filterModal";
+import FilterModal from "@/components/modals/FilterModal";
 import SearchBar from "@/components/UI/SearchBar";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";

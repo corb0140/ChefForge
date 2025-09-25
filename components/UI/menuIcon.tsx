@@ -6,7 +6,7 @@ export default function MenuIcon({
   menuOpen,
 }: {
   color: string;
-  menuOpen: () => void;
+  menuOpen?: () => void;
 }) {
   return (
     <Pressable onPress={menuOpen} style={styles.menuIconContainer}>

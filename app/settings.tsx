@@ -1,3 +1,4 @@
+import EditModal from "@/components/modals/EditModal";
 import SettingsButton from "@/components/UI/SettingsButton";
 import { Colors } from "@/constants/Colors";
 import { useAppDispatch } from "@/hooks/reduxHooks";
@@ -6,7 +7,7 @@ import { deleteToken } from "@/lib/secureStore";
 import { clearCredentials } from "@/lib/slices/userSlice";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -15,6 +16,7 @@ const platform = Platform.OS === "android" ? "android" : "ios";
 export default function Settings() {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -27,6 +29,10 @@ export default function Settings() {
     } catch (error) {
       console.error("Error logging out:", error);
     }
+  };
+
+  const handleModalToggle = () => {
+    setIsEditModalVisible(!isEditModalVisible);
   };
 
   return (
@@ -44,7 +50,7 @@ export default function Settings() {
             <Text style={styles.nameText}>John Doe</Text>
             <Text style={styles.usernameText}>@johh_doe</Text>
 
-            <Pressable style={styles.editButton}>
+            <Pressable style={styles.editButton} onPress={handleModalToggle}>
               <Text style={styles.editButtonText}>Edit</Text>
             </Pressable>
           </View>
@@ -121,6 +127,10 @@ export default function Settings() {
           </View>
         </View>
       </SafeAreaView>
+
+      {isEditModalVisible && (
+        <EditModal visible={isEditModalVisible} onClose={handleModalToggle} />
+      )}
     </SafeAreaProvider>
   );
 }
