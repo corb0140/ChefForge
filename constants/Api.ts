@@ -11,6 +11,6 @@ export const ApiEndpoints = {
   REFRESH: "/auth/refresh",
   USER: "/user",
   IMAGE: "/image/uploadImage",
-  GET_USER_IMAGE: "/user/getUserImage",
-  UPDATE_USER_IMAGE: "/user/uploadUserImage",
+  GET_USER_IMAGE: "/image/getUserImage",
+  UPDATE_USER_IMAGE: "/image/uploadUserImage",
 };

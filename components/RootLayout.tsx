@@ -34,8 +34,6 @@ export default function RootLayout() {
       try {
         const token = await getToken("refreshToken");
 
-        console.log("Retrieved token in RootLayout:", token);
-
         const response = await refreshToken(token!);
 
         if (!token) {

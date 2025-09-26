@@ -1,7 +1,7 @@
 import EditModal from "@/components/modals/EditModal";
 import SettingsButton from "@/components/UI/SettingsButton";
 import { Colors } from "@/constants/Colors";
-import { useAppDispatch } from "@/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { logOut } from "@/lib/axios";
 import { deleteToken } from "@/lib/secureStore";
 import { clearCredentials } from "@/lib/slices/userSlice";
@@ -17,6 +17,8 @@ export default function Settings() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const image = useAppSelector((state) => state.user.imageUri);
+  const user = useAppSelector((state) => state.user.user);
 
   const handleLogout = async () => {
     try {
@@ -41,14 +43,18 @@ export default function Settings() {
         <View style={styles.userAvatarAndNameContainer}>
           <View style={styles.avatarContainer}>
             <Image
-              // source={{ uri: `https://picsum.photos/id/${id}/100/100` }}
+              source={{
+                uri: image.imageUri || "",
+              }}
               style={styles.image}
             />
           </View>
 
           <View style={{ alignItems: "flex-start" }}>
-            <Text style={styles.nameText}>John Doe</Text>
-            <Text style={styles.usernameText}>@johh_doe</Text>
+            <Text style={styles.nameText}>
+              {user.first_name} {user.last_name}
+            </Text>
+            <Text style={styles.usernameText}>{user.email}</Text>
 
             <Pressable style={styles.editButton} onPress={handleModalToggle}>
               <Text style={styles.editButtonText}>Edit</Text>
@@ -182,7 +188,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   settingsContainer: {
-    marginTop: 30,
+    marginTop: 25,
     alignSelf: "flex-start",
     paddingLeft: 20,
     gap: 20,

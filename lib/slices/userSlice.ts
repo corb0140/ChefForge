@@ -10,6 +10,7 @@ export interface UserState {
     bio: string;
   };
   accessToken: string | null;
+  imageUri?: any;
 }
 
 const initialState: UserState = {
@@ -21,6 +22,7 @@ const initialState: UserState = {
     bio: "",
   },
   accessToken: null,
+  imageUri: "",
 };
 
 const userSlice = createSlice({
@@ -29,10 +31,18 @@ const userSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      action: PayloadAction<{ user: UserState["user"]; accessToken: string }>
+      action: PayloadAction<{
+        user: UserState["user"];
+        accessToken: string;
+        imageUri?: string;
+      }>
     ) => {
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
+    },
+
+    setUserImage: (state, action: PayloadAction<any>) => {
+      state.imageUri = action.payload;
     },
 
     clearCredentials: (state) => {
@@ -44,11 +54,13 @@ const userSlice = createSlice({
         bio: "",
       };
       state.accessToken = null;
+      state.imageUri = undefined;
     },
   },
 });
 
-export const { setCredentials, clearCredentials } = userSlice.actions;
+export const { setCredentials, setUserImage, clearCredentials } =
+  userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;
 

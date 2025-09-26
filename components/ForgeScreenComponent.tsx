@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/Colors";
+import { useAppSelector } from "@/hooks/reduxHooks";
 import { UserState } from "@/lib/slices/userSlice";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
@@ -19,6 +20,7 @@ export default function ForgeScreenComponent({
   user: { id, email, first_name, last_name, bio },
   chefId,
 }: ForgeScreenComponentProps) {
+  const userImage = useAppSelector((state) => state.user.imageUri);
   const [count, setCount] = useState({
     posts: 2000,
     followers: 200000,
@@ -28,13 +30,6 @@ export default function ForgeScreenComponent({
   const [data, setData] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log("ForgeScreenComponent user prop:", {
-      id,
-      email,
-      first_name,
-      last_name,
-      bio,
-    });
     const setText = () => {
       let text: string[];
       switch (true) {
@@ -78,7 +73,9 @@ export default function ForgeScreenComponent({
         {/* PROFILE IMAGE */}
         <View style={styles.profileImage}>
           <Image
-            source={require("@/assets/images/entry-bg.jpg")}
+            source={{
+              uri: userImage.imageUri || "",
+            }}
             style={{ width: "100%", height: "100%" }}
             contentFit="cover"
           />

@@ -3,10 +3,6 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: ApiConstants.BASE_URL,
-  withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 export async function signUp(
@@ -48,26 +44,32 @@ export async function refreshToken(refreshToken: string) {
   return response.data;
 }
 
-export async function uploadImage(image: FormData) {
-  const response = await api.post(ApiEndpoints.IMAGE, image, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-  return response.data;
+export async function uploadImage(image: FormData, token: string) {
+  try {
+    const response = await api.post(ApiEndpoints.IMAGE, image, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 }
 
-export async function getUserImage() {
+export async function getUserImage(token: string) {
   const response = await api.get(ApiEndpoints.GET_USER_IMAGE, {
-    responseType: "blob",
+    headers: { Authorization: `Bearer ${token}` },
   });
-  return response.data;
+  return response.data.image;
 }
 
-export async function updateUserImage(image: FormData) {
+export async function updateUserImage(image: FormData, token: string) {
   const response = await api.post(ApiEndpoints.UPDATE_USER_IMAGE, image, {
     headers: {
       "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
     },
   });
   return response.data;

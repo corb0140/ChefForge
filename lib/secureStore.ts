@@ -17,6 +17,14 @@ export const saveUser = async (key: string, value: string) => {
   }
 };
 
+export const saveImage = async (key: string, value: string) => {
+  try {
+    await SecureStore.setItemAsync(key, value);
+  } catch (error) {
+    console.error("Error saving image URI:", error);
+  }
+};
+
 export const getToken = async (key: string) => {
   try {
     return await SecureStore.getItemAsync(key);
